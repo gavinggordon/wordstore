@@ -216,7 +216,7 @@ class Builder
     return $this;
   }
 
-  public function find( $value, $part_of_speech = NULL, $member = 'word' )
+  public function find( $value, $part_of_speech = NULL, $param = 'word' )
   {
     $found = [];
     $dict = $this->get_dictionary();
@@ -226,7 +226,7 @@ class Builder
         $ppos = $pos . 's';
         $word = strtolower( $value );
         foreach($dict->$ppos as $k => $v) {
-          if($v->$member == $word) {
+          if($v->$param == $word) {
             $found[$k] = $v;
           }
         }
@@ -237,7 +237,7 @@ class Builder
         $ppos = $pos . 's';
         $word = strtolower( $value );
         foreach($dict->$ppos as $k => $v) {
-          if($v->$member == $word) {
+          if($v->$param == $word) {
             $found[$k] = $v;
           }
         }
