@@ -1,0 +1,51 @@
+{
+	"name": "gavinggordon/wordstore",
+	"description": "A PHP class which allows one to create a language dictionary, by adding words and their translations, both of which can be searched for and retrieved after adding, in addition to custom parameters.",
+	"license": "MIT",
+	"keywords": [
+	  	"v1.0.0",
+		"php",
+		"json",
+		"wordstore",
+		"words",
+		"language",
+		"storage",
+		"conlang",
+		"dictionary",
+		"custom",
+		"custom dictionary",
+		"language maker",
+		"language creator",
+		"dictionary builder"
+	],
+	"authors": [
+		{
+			"name": "Gavin G Gordon",
+			"email": "support@gavingordon.com",
+			"homepage": "https://gavingordon.com",
+			"role": "Developer"
+		}
+	],
+	"version": "1.0.0",
+	"minimum-stability": "stable",
+	"homepage": "http://wordstore.gavingordon.com",
+	"support": {
+		"issues": "https://github.com/gavinggordon/wordstore/issues",
+		"source": "https://github.com/gavinggordon/wordstore"
+	},
+	"repositories": [
+		{
+			"type": "git",
+			"url": "https://github.com/gavinggordon/wordstore.git"
+		}
+	],
+	"require": {},
+	"require-dev": {
+		"phpunit/phpunit": "4.0.*"
+	},
+	"autoload": {
+			"psr-4": {
+				"GGG\\WordStore\\": "src"
+		}
+	}
+}
