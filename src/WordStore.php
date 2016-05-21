@@ -1,8 +1,8 @@
 <?php
 
-namespace GGG\WordStore;
+namespace GGG;
 
-class Builder
+class WordStore
 {
 
   private $dictionary_file;
@@ -12,6 +12,7 @@ class Builder
     'article',
     'interjection',
     'noun',
+	'pronoun',
     'personalpronoun',
     'preposition',
     'punctuation',
@@ -28,6 +29,7 @@ class Builder
       $dictionary->articles = [];
       $dictionary->interjections = [];
       $dictionary->nouns = [];
+	  $dictionary->pronouns = [];
       $dictionary->personalpronouns = [];
       $dictionary->prepositions = [];
       $dictionary->punctuations = [];
@@ -48,7 +50,7 @@ class Builder
   public function add( $part_of_speech, $new_word, $word_params )
   {
     $function = 'add_' . strtolower( $part_of_speech );
-    $new_word = strtolower( $new_word );
+    $new_word = trim( $new_word );
     $this->$function( $new_word, $word_params );
   }
 
@@ -69,12 +71,28 @@ class Builder
     if(! $this->find( $word, 'noun' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
       }
       array_push( $dict->nouns, $newWord );
+      $this->save( $dict );
+    }
+    return $this;
+  }
+  
+  private function add_pronoun( $word, $params )
+  {
+    if(! $this->find( $word, 'pronoun' ) ) {
+      $dict = $this->get_dictionary();
+      $newWord = new \stdClass();
+      $newWord->word = trim( $word );
+      foreach( $params as $prop => $val ) {
+        $prop = strtolower( $prop );
+        $newWord->$prop = $val;
+      }
+      array_push( $dict->pronouns, $newWord );
       $this->save( $dict );
     }
     return $this;
@@ -85,7 +103,7 @@ class Builder
     if(! $this->find( $word, 'verb' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -101,7 +119,7 @@ class Builder
     if(! $this->find( $word, 'preposition' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -117,7 +135,7 @@ class Builder
     if(! $this->find( $word, 'adjective' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -133,7 +151,7 @@ class Builder
     if(! $this->find( $word, 'article' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -149,7 +167,7 @@ class Builder
     if(! $this->find( $word, 'personalpronoun' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -165,7 +183,7 @@ class Builder
     if(! $this->find( $word, 'adverb' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -181,7 +199,7 @@ class Builder
     if(! $this->find( $word, 'interjection' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -197,7 +215,7 @@ class Builder
     if(! $this->find( $word, 'punctuation' ) ) {
       $dict = $this->get_dictionary();
       $newWord = new \stdClass();
-      $newWord->word = strtolower( $word );
+      $newWord->word = trim( $word );
       foreach( $params as $prop => $val ) {
         $prop = strtolower( $prop );
         $newWord->$prop = $val;
@@ -224,7 +242,7 @@ class Builder
       $pos = strtolower( $part_of_speech );
       if( in_array( $pos, $this->parts_of_speech ) ) {
         $ppos = $pos . 's';
-        $word = strtolower( $value );
+        $word = trim( $value );
         foreach($dict->$ppos as $k => $v) {
           if($v->$param == $word) {
             $found[$k] = $v;
@@ -235,7 +253,7 @@ class Builder
     if( $part_of_speech == NULL ) {
       foreach( $this->parts_of_speech as $index => $pos ) {
         $ppos = $pos . 's';
-        $word = strtolower( $value );
+        $word = trim( $value );
         foreach($dict->$ppos as $k => $v) {
           if($v->$param == $word) {
             $found[$k] = $v;
@@ -253,8 +271,8 @@ class Builder
   private function beautify()
   {
     $file = file_get_contents( $this->dictionary_file );
-    $search = [ '{', '}', '[', ']', ',', ':' ];
-    $replace = [ "{\r\n", "\r\n}", "[\r\n", "\r\n]", ",\r\n", ": " ];
+    $search = [ '{', '}', '[', ']', ', ', ': ' ];
+    $replace = [ "{\r\n", "\r\n}", "[\r\n", "\r\n]", ", \r\n", ": " ];
     $new_content = str_replace( $search, $replace, $file );
     file_put_contents( $this->dictionary_file, $new_content );
     return $this;
@@ -263,8 +281,8 @@ class Builder
   private function uglify()
   {
     $file = file_get_contents( $this->dictionary_file );
-    $search = [ "{\r\n", "\r\n}", "[\r\n", "\r\n]", ",\r\n", ": " ];
-    $replace = [ '{', '}', '[', ']', ',', ':' ];
+    $search = [ "{\r\n", "\r\n}", "[\r\n", "\r\n]", ", \r\n", ": " ];
+    $replace = [ '{', '}', '[', ']', ', ', ': ' ];
     $new_content = str_replace( $search, $replace, $file );
     file_put_contents( $this->dictionary_file, $new_content );
     return $this;
