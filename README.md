@@ -1,83 +1,114 @@
-# WordStore
+# WordStore v1.0.1
 
 [![Build Status](https://travis-ci.org/gavinggordon/wordstore.svg?branch=master)](https://travis-ci.org/gavinggordon/wordstore)
 
-This class (GGG\WordStore\Builder) allows one to create a language dictionary, by adding words and their translations, both of which can be searched for and retrieved after adding, in addition to custom parameters. 
+## Synopsis
 
-## Installation
+This class (GGG\WordStore) allows one to create a language dictionary, by adding words and their translations, both of which can be searched for and retrieved after adding, in addition to custom parameters. 
 
+## How to use 'WordStore'
+
+### Install via Composer...
+
+```
 	composer require gavinggordon/wordstore
+```
 
-## Examples
+### Include autoload.php...
 
-#### Instantiation:
-
+```
 	include_once( __DIR__ . '/vendor/autoload.php' );
-	
-	// Define location a location and json filename for dictionary
-	$json_dictionary_file = __DIR__ . DIRECTORY_SEPARATOR . 'dictionary.json';
-	
-	$wordstore = new \GGG\WordStore\Builder( $json_dictionary_file );
+```
 
-#### Adding:
+### Create new instance...
 
-	// \GGG\WordStore\Builder->add(
+```
 	//
-	//	@var $part_of_speech String (required)
+	// new WordStore( 
+	// 
+	// @var string $dictionary_file *optional* 
+	// default value = 'dictionary.json'
+	//  
+	// );
+	//
+	// returns $self;
+	// 
+	
+	$json_dictionary_file = __DIR__ . '/myDictionary.json';
+	// optionally, override the default name to be used for the .json
+	// dictionary file, where all the related word data will be stored
+	
+	$wordstore = new GGG\WordStore( $json_dictionary_file );
+	// creates dictionary file, if it doesn't already exist
+```
+
+#### Adding a word...
+
+```
+	//
+	// WordStore->add(
+	//
+	//	@var string $part_of_speech *required*
 	// possible values =	'adjective',
 	//								'adverb',
 	//								'article',
 	//								'interjection',
 	//								'noun',
+	//								'pronoun',
 	//								'personalpronoun', 
 	//								'preposition', 
 	//								'punctuation',
 	//								'verb'
 	//
-	//	@var $word String (required)
+	//	@var string $word *required*
 	//	possible values = *
 	//
-	//	@var $params Array (required)
+	//	@var array $params *required*
 	//	possible values = *
 	//
 	// );
 	//
-	// return $self;
+	// returns $self;
 	//
 	
 	$wordstore->add( 'noun', 'friend', ['translation'=>'vuča','gender'=>'conditional'] );
+```
 
-#### Finding:
+#### Finding a word...
 
-	// \GGG\WordStore\Builder->find(
+```
 	//
-	//	@var $value String (required)
+	// WordStore->find(
+	//
+	//	@var string $value *required*
 	//	possible values = *
 	//
-	//	@var $part_of_speech String (optional)
+	//	@var string $part_of_speech *optional*
 	// default value = NULL
 	// possible values =	'adjective',
 	//								'adverb',
 	//								'article',
 	//								'interjection',
 	//								'noun',
+	//								'pronoun',
 	//								'personalpronoun', 
 	//								'preposition', 
 	//								'punctuation',
 	//								'verb'
 	//
-	//	@var $param String (optional)
+	//	@var string $param *optional*
 	// default value = 'word'
 	//	possible values = *
 	//
 	// );
 	//
-	// return $found Array || FALSE;
+	// returns $found Array || FALSE;
 	//
 	
 	$word = $wordstore->find( 'friend' );
 	print_r( $word );
 	 
+	//
 	// Array
 	// (
 	//	  [0] => stdClass Object
@@ -87,4 +118,6 @@ This class (GGG\WordStore\Builder) allows one to create a language dictionary, b
 	//              [gender] => conditional
 	//        )
 	// );
+	//
+```
 
