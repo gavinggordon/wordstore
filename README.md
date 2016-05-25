@@ -1,4 +1,4 @@
-# WordStore v1.0.1
+# WordStore v1.1
 
 [![Build Status](https://travis-ci.org/gavinggordon/wordstore.svg?branch=master)](https://travis-ci.org/gavinggordon/wordstore)
 
@@ -49,16 +49,10 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	// WordStore->add(
 	//
 	//	@var string $part_of_speech *required*
-	// possible values =	'adjective',
-	//								'adverb',
-	//								'article',
-	//								'interjection',
-	//								'noun',
-	//								'pronoun',
-	//								'personalpronoun', 
-	//								'preposition', 
-	//								'punctuation',
-	//								'verb'
+	// possible values =	
+	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
+	// 'noun' || 'pronoun' || 'personalpronoun' || 
+	// 'preposition' || 'punctuation' || 'verb'
 	//
 	//	@var string $word *required*
 	//	possible values = *
@@ -85,16 +79,10 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	//
 	//	@var string $part_of_speech *optional*
 	// default value = NULL
-	// possible values =	'adjective',
-	//								'adverb',
-	//								'article',
-	//								'interjection',
-	//								'noun',
-	//								'pronoun',
-	//								'personalpronoun', 
-	//								'preposition', 
-	//								'punctuation',
-	//								'verb'
+	// possible values =	
+	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
+	// 'noun' || 'pronoun' || 'personalpronoun' || 
+	// 'preposition' || 'punctuation' || 'verb'
 	//
 	//	@var string $param *optional*
 	// default value = 'word'
@@ -121,3 +109,46 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	//
 ```
 
+#### Updating a word...
+
+```
+	//
+	// WordStore->update(
+	//
+	//	@var string $newvalue *required*
+	//	possible values = *
+	//
+	//	@var string $oldvalue *required*
+	//	possible values = *
+	//
+	//	@var string $part_of_speech *optional*
+	// default value = NULL
+	// possible values = 
+	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
+	// 'noun' || 'pronoun' || 'personalpronoun' || 
+	// 'preposition' || 'punctuation' || 'verb'
+	//
+	//	@var string $param *optional*
+	// default value = 'word'
+	//	possible values = *
+	//
+	// );
+	//
+	// returns $self;
+	//
+	
+	$wordstore->update( 'buddy', 'friend' );
+	$word = $wordstore->find( 'buddy' );
+	 
+	//
+	// Array
+	// (
+	//	  [0] => stdClass Object
+	//	       (
+	//              [word] => buddy
+	//              [translation] => vuča
+	//              [gender] => conditional
+	//        )
+	// );
+	//
+```
