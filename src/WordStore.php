@@ -267,6 +267,38 @@ class WordStore
       return false;
     }
   }
+  
+  public function update( $newvalue, $oldvalue, $part_of_speech = NULL, $param = 'word' )
+  {
+    $dict = $this->get_dictionary();
+    if( $part_of_speech != NULL ) {
+      $pos = strtolower( $part_of_speech );
+      if( in_array( $pos, $this->parts_of_speech ) ) {
+        $ppos = $pos . 's';
+        $word = trim( $oldvalue );
+        foreach( $dict->$ppos as $k => $v ) {
+          if( $v->$param == $word ) {
+            $v->$param = trim( $newvalue );
+            break;
+          }
+        }
+      }
+    }
+    if( $part_of_speech == NULL ) {
+      foreach( $this->parts_of_speech as $index => $pos ) {
+        $ppos = $pos . 's';
+        $word = trim( $value );
+        foreach( $dict->$ppos as $k => $v ) {
+          if( $v->$param == $word ) {
+            $v->$param = trim( $newvalue );
+            break;
+          }
+        }
+      }
+    }
+    $this->save( $dict );
+    return $this;
+  }
 
   private function beautify()
   {
