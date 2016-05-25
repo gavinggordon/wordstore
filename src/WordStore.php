@@ -284,7 +284,7 @@ class WordStore
     if( $part_of_speech == NULL ) {
       foreach( $this->parts_of_speech as $index => $pos ) {
         $ppos = $pos . 's';
-        $word = trim( $value );
+        $word = trim( $oldvalue );
         foreach( $dict->$ppos as $k => $v ) {
           if( $v->$param == $word ) {
             $v->$param = trim( $newvalue );
