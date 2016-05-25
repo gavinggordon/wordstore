@@ -34,9 +34,7 @@ class WordStore
       $dictionary->prepositions = [];
       $dictionary->punctuations = [];
       $dictionary->verbs = [];
-      $json = json_encode( $dictionary );
-      file_put_contents( $file, $json );
-      $this->beautify();
+      $this->save( $dictionary );
     }
   }
 
@@ -228,9 +226,8 @@ class WordStore
 
   private function save( $updated_data )
   {
-    $json = json_encode( $updated_data );
+    $json = json_encode( $updated_data, JSON_PRETTY_PRINT );
     file_put_contents( $this->dictionary_file, $json );
-    $this->uglify()->beautify();
     return $this;
   }
 
@@ -297,26 +294,6 @@ class WordStore
       }
     }
     $this->save( $dict );
-    return $this;
-  }
-
-  private function beautify()
-  {
-    $file = file_get_contents( $this->dictionary_file );
-    $search = [ '{', '}', '[', ']', ', ', ': ' ];
-    $replace = [ "{\r\n", "\r\n}", "[\r\n", "\r\n]", ", \r\n", ": " ];
-    $new_content = str_replace( $search, $replace, $file );
-    file_put_contents( $this->dictionary_file, $new_content );
-    return $this;
-  }
-
-  private function uglify()
-  {
-    $file = file_get_contents( $this->dictionary_file );
-    $search = [ "{\r\n", "\r\n}", "[\r\n", "\r\n]", ", \r\n", ": " ];
-    $replace = [ '{', '}', '[', ']', ', ', ': ' ];
-    $new_content = str_replace( $search, $replace, $file );
-    file_put_contents( $this->dictionary_file, $new_content );
     return $this;
   }
 
