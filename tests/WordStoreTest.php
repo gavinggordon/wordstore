@@ -30,6 +30,13 @@ class WordStoreTest extends \PHPUnit_Framework_TestCase
         $this->assertSame( $expected, $actual );
     }
 	
+	public function testUpdate()
+    {
+		$this->wordstore->update( 'buddy', 'friend' );
+		$word = $this->wordstore->find( 'buddy' );
+        $this->assertCount( 1, $word );
+    }
+	
 	public function __destruct()
 	{
 		unlink( $this->dictionaryFile );
