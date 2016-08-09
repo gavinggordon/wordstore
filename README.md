@@ -1,4 +1,4 @@
-# WordStore v2.0.5
+# WordStore v2.0.6
 
 [![Build Status](https://travis-ci.org/gavinggordon/wordstore.svg?branch=master)](https://travis-ci.org/gavinggordon/wordstore)
 

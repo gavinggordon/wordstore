@@ -3,7 +3,7 @@
 	"description": "This is a CRUD compliant, language data storage class.",
 	"license": "MIT",
 	"keywords": [
-	  	"v2.0.5",
+	  	"v2.0.6",
 		"php",
 		"json",
 		"wordstore",
@@ -28,7 +28,7 @@
 			"role": "Developer"
 		}
 	],
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"minimum-stability": "stable",
 	"homepage": "http://wordstore.gavingordon.com",
 	"support": {

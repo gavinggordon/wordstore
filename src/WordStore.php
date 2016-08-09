@@ -5,7 +5,7 @@ namespace GGG;
 class WordStore
 {
 
-  const VERSION = '2.0.5';
+  const VERSION = '2.0.6';
   
   private $dictionary_file;
   private $parts_of_speech = [

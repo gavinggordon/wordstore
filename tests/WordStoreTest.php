@@ -47,7 +47,7 @@ class WordStoreTest extends \PHPUnit_Framework_TestCase
     {
 		$this->wordstore->delete( 'vuča', 'noun' );
 		$word = $this->wordstore->find( 'vuča' );
-        $this->assertCount( 0, $word );
+        $this->assertFalse( $word );
     }
 	
 	public function __destruct()
