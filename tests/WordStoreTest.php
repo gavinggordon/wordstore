@@ -17,24 +17,32 @@ class WordStoreTest extends \PHPUnit_Framework_TestCase
 
 	public function testAdd()
     {
-		$this->wordstore->add( 'noun', 'friend', ['translation'=>'vuča','gender'=>'conditional'] );
-		$word = $this->wordstore->find( 'friend' );
+		$this->wordstore->addTo( 'noun', 'vuča', ['translation'=>'friend','pronounciation'=>'voo-cha'] );
+		$word = $this->wordstore->find( 'vuča', 'noun' );
         $this->assertCount( 1, $word );
     }
 	
 	public function testFind()
     {
-		$word = $this->wordstore->find( 'friend' );
-		$actual = $word[ 0 ]->translation;
-		$expected = 'vuča';
+		$word = $this->wordstore->find( 'vuča', 'noun' );
+		$actual = $word['translation'];
+		$expected = 'friend';
         $this->assertSame( $expected, $actual );
     }
 	
 	public function testUpdate()
     {
-		$this->wordstore->update( 'buddy', 'friend' );
-		$word = $this->wordstore->find( 'buddy' );
-        $this->assertCount( 1, $word );
+		$this->wordstore->update( 'partner', 'vuča', 'noun', 'translation' );
+		$actual = $this->wordstore->find( 'vuča', 'noun', 'translation' );
+        $expected = 'partner';
+        $this->assertSame( $expected, $actual );
+    }
+	
+	public function testDelete()
+    {
+		$this->wordstore->delete( 'vuča', 'noun' );
+		$word = $this->wordstore->find( 'vuča' );
+        $this->assertCount( 0, $word );
     }
 	
 	public function __destruct()
