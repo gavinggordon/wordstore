@@ -1,6 +1,6 @@
 {
 	"name": "gavinggordon/wordstore",
-	"description": "A CRUD compliant PHP class, which provides the ability to create a language dictionary. Entries into the WordStore you create can contain user-definited paramaters, all of which can be: searched and retrieved; updated; deleted.",
+	"description": "This PHP class ( GGG\WordStore ) is a CRUD compliant language data storage class. It provides the ability to create a language dictionary. All enteries you create are stored in the WordStore and can contain user-definited parameters, all of which can be: searched and retrieved; updated; and, deleted.",
 	"license": "MIT",
 	"keywords": [
 	  	"v2.0",

@@ -1,10 +1,10 @@
-# WordStore v1.1.1
+# WordStore v2.0
 
 [![Build Status](https://travis-ci.org/gavinggordon/wordstore.svg?branch=master)](https://travis-ci.org/gavinggordon/wordstore)
 
 ## Synopsis
 
-This class (GGG\WordStore) allows one to create a language dictionary, by adding words and their translations, both of which can be searched for and retrieved after adding, in addition to custom parameters. 
+This PHP class ( GGG\WordStore ) is a CRUD compliant language data storage class. It provides the ability to create a language dictionary. All enteries you create are stored in the WordStore and can contain user-definited parameters, all of which can be: searched and retrieved; updated; and, deleted.
 
 ## How to use 'WordStore'
 
@@ -26,12 +26,12 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	//
 	// new WordStore( 
 	// 
-	// @var string $dictionary_file *optional* 
+	// @param string $dictionary_file *optional* 
 	// default value = 'dictionary.json'
 	//  
 	// );
 	//
-	// returns $self;
+	// @return object
 	// 
 	
 	$json_dictionary_file = __DIR__ . '/myDictionary.json';
@@ -46,26 +46,29 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 
 ```
 	//
-	// WordStore->add(
+	// WordStore->addTo(
 	//
-	//	@var string $part_of_speech *required*
+	//	@param string $part_of_speech *required*
 	// possible values =	
 	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
 	// 'noun' || 'pronoun' || 'personalpronoun' || 
 	// 'preposition' || 'punctuation' || 'verb'
 	//
-	//	@var string $word *required*
+	//	@param string $word *required*
 	//	possible values = *
 	//
-	//	@var array $params *required*
+	//	@param array $params *required*
 	//	possible values = *
 	//
 	// );
 	//
-	// returns $self;
+	// @return object | FALSE
 	//
 	
-	$wordstore->add( 'noun', 'friend', ['translation'=>'vuča','gender'=>'conditional'] );
+	$wordstore->addTo( 'noun', 'vuča', [ 
+		'translation' => 'friend',
+		'pronounciation' => 'voo-cha' 
+	] );
 ```
 
 #### Finding a word...
@@ -74,26 +77,26 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	//
 	// WordStore->find(
 	//
-	//	@var string $value *required*
+	//	@param string $value *required*
 	//	possible values = *
 	//
-	//	@var string $part_of_speech *optional*
+	//	@param string $part_of_speech *optional*
 	// default value = NULL
 	// possible values =	
 	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
 	// 'noun' || 'pronoun' || 'personalpronoun' || 
 	// 'preposition' || 'punctuation' || 'verb'
 	//
-	//	@var string $param *optional*
-	// default value = 'word'
+	//	@param string $param *optional*
+	// default value = NULL
 	//	possible values = *
 	//
 	// );
 	//
-	// returns $found Array || FALSE;
+	// @return array | FALSE;
 	//
 	
-	$word = $wordstore->find( 'friend' );
+	$word = $wordstore->find( 'vuča' );
 	print_r( $word );
 	 
 	//
@@ -101,9 +104,8 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	// (
 	//	  [0] => stdClass Object
 	//	       (
-	//              [word] => friend
-	//              [translation] => vuča
-	//              [gender] => conditional
+	//              [translation] => friend
+	//              [pronounciation] => voo-cha
 	//        )
 	// );
 	//
@@ -115,29 +117,29 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	//
 	// WordStore->update(
 	//
-	//	@var string $newvalue *required*
+	//	@param string $newvalue *required*
 	//	possible values = *
 	//
-	//	@var string $oldvalue *required*
+	//	@param string $oldvalue *required*
 	//	possible values = *
 	//
-	//	@var string $part_of_speech *optional*
+	//	@param string $part_of_speech *optional*
 	// default value = NULL
 	// possible values = 
 	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
 	// 'noun' || 'pronoun' || 'personalpronoun' || 
 	// 'preposition' || 'punctuation' || 'verb'
 	//
-	//	@var string $param *optional*
-	// default value = 'word'
+	//	@param string $param *optional*
+	// default value = NULL
 	//	possible values = *
 	//
 	// );
 	//
-	// returns $self;
+	// @return object | FALSE
 	//
 	
-	$wordstore->update( 'buddy', 'friend' );
+	$wordstore->update( 'partner', 'vuča', 'noun', 'translation' );
 	$word = $wordstore->find( 'buddy' );
 	 
 	//
@@ -145,10 +147,48 @@ This class (GGG\WordStore) allows one to create a language dictionary, by adding
 	// (
 	//	  [0] => stdClass Object
 	//	       (
-	//              [word] => buddy
-	//              [translation] => vuča
-	//              [gender] => conditional
+	//              [translation] => partner
+	//              [pronounciation] => voo-cha
 	//        )
 	// );
 	//
 ```
+
+#### Deleting a word...
+
+```
+	//
+	// WordStore->delete(
+	//
+	//	@param string $newvalue *required*
+	//	possible values = *
+	//
+	//	@param string $part_of_speech *optional*
+	// default value = NULL
+	// possible values = 
+	// 'adjective' || 'adverb' || 'article' || 'interjection' ||
+	// 'noun' || 'pronoun' || 'personalpronoun' || 
+	// 'preposition' || 'punctuation' || 'verb'
+	//
+	// );
+	//
+	// @return object | FALSE
+	//
+	
+	$wordstore->delete( 'vuča', 'noun' );
+	$word = $wordstore->find( 'vuča' );
+	 
+	//
+	// FALSE
+	//
+```
+
+--------------
+
+#### More Information
+
+##### PHP Innovation Award
+
+This [class](http://www.phpclasses.org/package/9724.html) has been nominated for a PHP Innovation Award, provided by [PHPClasses.org](http://www.phpclasses.org). If you found [this class](http://www.phpclasses.org/package/9724.html) to be at all interesting, helpful, particularly useful, or innovative in any way, please [vote](http://www.phpclasses.org/vote.html) for it, to show your support for [this](http://www.phpclasses.org/package/9724.html) or any other PHP classes accessible online via my [GitHub profile](https://github.com/gavinggordon) or [PHPClasses.org profile](http://www.phpclasses.org/browse/author/1348645.html).
+
+--------------
