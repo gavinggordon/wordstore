@@ -5,7 +5,8 @@ namespace GGG;
 class WordStore
 {
 
-  const VERSION = '2.0.4';
+  const VERSION = '2.0.5';
+  
   private $dictionary_file;
   private $parts_of_speech = [
     'adjective',
@@ -19,6 +20,18 @@ class WordStore
     'punctuation',
     'verb'
   ];
+  
+ /*
+  * @param string $filename  ( optional )
+  *
+  * @return object 
+  */
+  public function __construct( $filename = 'dictionary.json' )
+  {
+    $this->dictionary_file = $filename;
+    $this->init();
+    return $this;
+  }
 
  /*
   * @return void 
@@ -41,17 +54,20 @@ class WordStore
       $this->save( $dictionary );
     }
   }
-
+  
  /*
-  * @param string $filename  ( optional )
+  * @param integer $return_obj  ( optional ) 
   *
-  * @return object 
+  * @return object | array 
   */
-  public function __construct( $filename = 'dictionary.json' )
+  private function get_dictionary( $return_obj = 0 )
   {
-    $this->dictionary_file = $filename;
-    $this->init();
-    return $this;
+    if( $return_obj === 0 ) {
+      return json_decode( file_get_contents( $this->dictionary_file ) );
+    }
+    if( $return_obj === 1 ) {
+      return json_decode( file_get_contents( $this->dictionary_file ), TRUE );
+    }
   }
 
  /*
@@ -61,7 +77,7 @@ class WordStore
   *
   * @return object | FALSE 
   */
-  public function addto( $part_of_speech, $new_word, $word_params = [] )
+  public function add( $part_of_speech, $new_word, $word_params = [] )
   {
     if( in_array( $part_of_speech, $this->parts_of_speech ) ) {
       if(! $this->find( $new_word, $part_of_speech ) ) {
@@ -80,40 +96,32 @@ class WordStore
   }
 
  /*
+  * Deprecated Method 
+  *
   * @param string $part_of_speech
   * @param string $new_word
   * @param array $word_params
   *
   * @return object | array 
   */
+  /*
   public function add( $part_of_speech, $new_word, $word_params = [] )
   {
     $function = 'add_' . strtolower( $part_of_speech );
     $new_word = trim( $new_word );
     $this->$function( $new_word, $word_params );
   }
-
- /*
-  * @param integer $return_obj  ( optional ) 
-  *
-  * @return object | array 
   */
-  private function get_dictionary( $return_obj = 0 )
-  {
-    if( $return_obj === 0 ) {
-      return json_decode( file_get_contents( $this->dictionary_file ) );
-    }
-    if( $return_obj === 1 ) {
-      return json_decode( file_get_contents( $this->dictionary_file ), TRUE );
-    }
-  }
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_noun( $word, $params )
   {
     if(! $this->find( $word, 'noun' ) ) {
@@ -128,13 +136,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
   
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_pronoun( $word, $params )
   {
     if(! $this->find( $word, 'pronoun' ) ) {
@@ -149,13 +161,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_verb( $word, $params )
   {
     if(! $this->find( $word, 'verb' ) ) {
@@ -172,13 +188,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_preposition( $word, $params )
   {
     if(! $this->find( $word, 'preposition' ) ) {
@@ -195,13 +215,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_adjective( $word, $params )
   {
     if(! $this->find( $word, 'adjective' ) ) {
@@ -218,13 +242,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_article( $word, $params )
   {
     if(! $this->find( $word, 'article' ) ) {
@@ -241,13 +269,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_personalpronoun( $word, $params )
   {
     if(! $this->find( $word, 'personalpronoun' ) ) {
@@ -264,13 +296,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_adverb( $word, $params )
   {
     if(! $this->find( $word, 'adverb' ) ) {
@@ -287,13 +323,17 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_interjection( $word, $params )
   {
     if(! $this->find( $word, 'interjection' ) ) {
@@ -310,13 +350,17 @@ class WordStore
     }
     return FALSE;;
   }
+  */
 
  /*
+  * Deprecated Method 
+  *
   * @param string $word 
   * @param array $params
   *
   * @return object | FALSE 
   */
+  /*
   private function add_punctuation( $word, $params )
   {
     if(! $this->find( $word, 'punctuation' ) ) {
@@ -333,6 +377,7 @@ class WordStore
     }
     return FALSE;
   }
+  */
 
  /*
   * @param array $updated_data 

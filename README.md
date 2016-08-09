@@ -1,4 +1,4 @@
-# WordStore v2.0.4
+# WordStore v2.0.5
 
 [![Build Status](https://travis-ci.org/gavinggordon/wordstore.svg?branch=master)](https://travis-ci.org/gavinggordon/wordstore)
 
@@ -39,14 +39,14 @@ This PHP class ( GGG\WordStore ) is a CRUD compliant language data storage class
 	// dictionary file, where all the related word data will be stored
 	
 	$wordstore = new GGG\WordStore( $json_dictionary_file );
-	// creates dictionary file, if it doesn't already exist
+	// creates the dictionary storage file, if it doesn't already exist
 ```
 
 #### Adding a word...
 
 ```
 	//
-	// WordStore->addTo(
+	// WordStore->add(
 	//
 	//	@param string $part_of_speech *required*
 	// possible values =	
@@ -65,7 +65,7 @@ This PHP class ( GGG\WordStore ) is a CRUD compliant language data storage class
 	// @return object | FALSE
 	//
 	
-	$wordstore->addTo( 'noun', 'vuča', [ 
+	$wordstore->add( 'noun', 'vuča', [ 
 		'translation' => 'friend',
 		'pronounciation' => 'voo-cha' 
 	] );
@@ -102,11 +102,8 @@ This PHP class ( GGG\WordStore ) is a CRUD compliant language data storage class
 	//
 	// Array
 	// (
-	//	  [0] => stdClass Object
-	//	       (
-	//              [translation] => friend
-	//              [pronounciation] => voo-cha
-	//        )
+	// 		[translation] => friend
+	//		[pronounciation] => voo-cha
 	// );
 	//
 ```
