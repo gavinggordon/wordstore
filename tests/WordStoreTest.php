@@ -17,7 +17,10 @@ class WordStoreTest extends \PHPUnit_Framework_TestCase
 
 	public function testAdd()
     {
-		$this->wordstore->addTo( 'noun', 'vuča', ['translation'=>'friend','pronounciation'=>'voo-cha'] );
+		$this->wordstore->addTo( 'noun', 'vuča', [
+			'translation' => 'friend',
+			'pronounciation' => 'voo-cha'
+		] );
 		$word = $this->wordstore->find( 'vuča', 'noun' );
         $this->assertCount( 1, $word );
     }
